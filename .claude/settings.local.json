@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx @nestjs/cli new backend --skip-git --package-manager npm --language TypeScript --strict)",
+      "Bash(npm install:*)",
+      "Bash(npx nest:*)",
+      "Bash(mv frontend/CLAUDE.md /tmp/siren_frontend_claude.md)",
+      "Bash(rm -rf frontend)",
+      "Bash(npm create:*)",
+      "Bash(ls:*)",
+      "Bash(npx vite:*)",
+      "Bash(npx tsc:*)",
+      "Bash(docker compose:*)",
+      "Bash(curl -s http://localhost:3001/api/v1/seed)",
+      "Bash(python3 -m json.tool)",
+      "Bash(find /Users/fernandohernandez/Documents/claude/siren_project/backend/src/modules -name *project* -type d)",
+      "Bash(docker exec:*)"
+    ]
+  }
+}

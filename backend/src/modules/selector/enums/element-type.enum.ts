@@ -1,0 +1,16 @@
+export enum ElementType {
+  INPUT = 'input',
+  BUTTON = 'button',
+  SELECT = 'select',
+  TEXTAREA = 'textarea',
+  LABEL = 'label',
+  LINK = 'link',
+  DIV = 'div',
+  SPAN = 'span',
+  CHECKBOX = 'checkbox',
+  RADIO = 'radio',
+  TABLE = 'table',
+  IMAGE = 'image',
+  HEADING = 'heading',
+  OTHER = 'other',
+}

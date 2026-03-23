@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-primary-light: #EEF2FF;
+  --color-accent: #10B981;
+  --color-accent-hover: #059669;
+  --color-danger: #EF4444;
+  --color-danger-hover: #DC2626;
+  --color-warning: #F59E0B;
+
+  /* Light theme */
+  --color-bg: #F9FAFB;
+  --color-bg-secondary: #F3F4F6;
+  --color-card: #FFFFFF;
+  --color-card-hover: #F9FAFB;
+  --color-border: #E5E7EB;
+  --color-text: #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  --color-sidebar: #1F2937;
+  --color-sidebar-text: #F9FAFB;
+  --color-sidebar-hover: #374151;
+
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.3s ease-out;
+}
+
+/* Dark theme overrides */
+.dark {
+  --color-bg: #0F172A;
+  --color-bg-secondary: #1E293B;
+  --color-card: #1E293B;
+  --color-card-hover: #334155;
+  --color-border: #334155;
+  --color-text: #F1F5F9;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-sidebar: #0F172A;
+  --color-sidebar-text: #F1F5F9;
+  --color-sidebar-hover: #1E293B;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-text font-body antialiased;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-hover transition-colors duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply bg-bg-secondary text-text px-4 py-2 rounded-lg hover:bg-border transition-colors duration-200 font-medium border border-border;
+  }
+  .btn-danger {
+    @apply bg-danger text-white px-4 py-2 rounded-lg hover:bg-danger-hover transition-colors duration-200 font-medium;
+  }
+  .btn-accent {
+    @apply bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent-hover transition-colors duration-200 font-medium;
+  }
+  .card {
+    @apply bg-card border border-border rounded-xl p-6 animate-fade-in;
+  }
+  .input-field {
+    @apply w-full px-3 py-2 bg-bg border border-border rounded-lg text-text placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200;
+  }
+  .label {
+    @apply block text-sm font-medium text-text-secondary mb-1;
+  }
+}
