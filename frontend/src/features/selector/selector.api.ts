@@ -42,4 +42,17 @@ export const selectorApi = {
     );
     return data;
   },
+
+  checkDuplicateValue: async (
+    pageId: string,
+    selectorValue: string,
+    excludeId?: string,
+  ): Promise<{ isDuplicate: boolean }> => {
+    const params = new URLSearchParams({ pageId, selectorValue });
+    if (excludeId) params.append('excludeId', excludeId);
+    const { data } = await httpClient.get<{ isDuplicate: boolean }>(
+      `/selectors/check-duplicate-value?${params.toString()}`,
+    );
+    return data;
+  },
 };

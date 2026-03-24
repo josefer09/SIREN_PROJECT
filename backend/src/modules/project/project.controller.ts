@@ -95,9 +95,9 @@ export class ProjectController {
     @GetUser() user: AuthUser,
     @Res() res: Response,
   ) {
-    const content = await this.exportService.exportPageTypescript(pageId, user);
+    const { content, className } = await this.exportService.exportPageTypescript(pageId, user);
     res.set('Content-Type', 'text/plain');
-    res.set('Content-Disposition', 'attachment; filename="page.ts"');
+    res.set('Content-Disposition', `attachment; filename="${className}.ts"`);
     res.send(content);
   }
 

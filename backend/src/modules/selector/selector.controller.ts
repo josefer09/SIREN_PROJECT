@@ -53,6 +53,18 @@ export class SelectorController {
     return this.selectorService.checkDuplicates(pageId, name, user);
   }
 
+  @Get('check-duplicate-value')
+  @Auth()
+  @ApiOperation({ summary: 'Check if a selector value already exists on a page' })
+  checkDuplicateValue(
+    @Query('pageId', ParseUUIDPipe) pageId: string,
+    @Query('selectorValue') selectorValue: string,
+    @Query('excludeId') excludeId: string | undefined,
+    @GetUser() user: AuthUser,
+  ) {
+    return this.selectorService.checkDuplicateValue(pageId, selectorValue, user, excludeId);
+  }
+
   @Get(':id')
   @Auth()
   @ApiOperation({ summary: 'Get a selector by ID' })

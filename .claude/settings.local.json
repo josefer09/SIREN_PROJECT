@@ -14,7 +14,9 @@
       "Bash(curl -s http://localhost:3001/api/v1/seed)",
       "Bash(python3 -m json.tool)",
       "Bash(find /Users/fernandohernandez/Documents/claude/siren_project/backend/src/modules -name *project* -type d)",
-      "Bash(docker exec:*)"
+      "Bash(docker exec:*)",
+      "Bash(find /c/Users/jhernandez/Documents/siren_project/siren_project -name *migration* -type f)",
+      "Bash(grep -r selectorValue /c/Users/jhernandez/Documents/siren_project/siren_project/backend/src --include=*.ts)"
     ]
   }
 }

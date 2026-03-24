@@ -90,11 +90,12 @@ The current auth system has roles (ADMIN, SUPER_USER, USER) but no concept of "w
 siren/
 ├── CLAUDE.md                      ← You are here (root project config)
 ├── docker-compose.yml             ← Orchestrates postgres + backend + frontend
-├── docs/                          ← Project documentation (see Documentation Strategy below)
+├── documents/                     ← Project documentation (see Documentation Strategy below)
 │   ├── architecture/              ← ADRs, ER diagrams, system design docs
 │   ├── devlog/                    ← Development journal entries
 │   ├── mockups/                   ← UI mockups and wireframes
-│   └── api/                       ← API design notes (Swagger is the live source of truth)
+│   ├── api/                       ← API design notes (Swagger is the live source of truth)
+│   └── templates/                 ← Export & output templates (POM, email, etc.)
 ├── backend/                       ← NestJS API (see backend/CLAUDE.md for full details)
 │   ├── CLAUDE.md
 │   ├── Dockerfile
@@ -122,12 +123,12 @@ siren/
 
 ## Documentation Strategy
 
-Siren maintains documentation at three levels. This serves both as engineering reference and as raw material for content creation (blog posts, tutorials, case studies).
+Siren maintains documentation at four levels. This serves both as engineering reference and as raw material for content creation (blog posts, tutorials, case studies).
 
-### 1. Architecture Decision Records (ADRs) — `docs/architecture/`
+### 1. Architecture Decision Records (ADRs) — `documents/architecture/`
 One file per significant technical decision. Format:
 ```
-docs/architecture/
+documents/architecture/
 ├── ADR-001-monorepo-structure.md
 ├── ADR-002-adapter-pattern.md
 ├── ADR-003-selector-model-design.md
@@ -145,10 +146,10 @@ Each ADR follows this template:
 ```
 **When to write one:** New module pattern, new infrastructure choice, schema design that affects multiple features, technology selection.
 
-### 2. Development Journal (Devlog) — `docs/devlog/`
+### 2. Development Journal (Devlog) — `documents/devlog/`
 Chronological entries documenting progress, blockers, learnings, and decisions made during implementation. This is the "content goldmine" for blog posts and tutorials.
 ```
-docs/devlog/
+documents/devlog/
 ├── 2025-06-15-fastpages-proxy-implementation.md
 ├── 2025-06-22-inspector-iframe-challenges.md
 └── ...
@@ -165,7 +166,19 @@ Each entry:
 ```
 **Frequency:** Write one after each meaningful work session or when solving a non-trivial problem. Doesn't need to be daily.
 
-### 3. CLAUDE.md Files (Living Technical Reference)
+### 3. Export & Output Templates — `documents/templates/`
+Each template defines the exact structure that a backend export provider must generate. Templates are the **source of truth** — the generated output must match the template precisely.
+```
+documents/templates/
+├── TYPESCRIPT_POM_TEMPLATE.md     ← Cypress TypeScript POM class structure
+├── ROBOT_POM_TEMPLATE.md          ← (future) Robot Framework POM
+├── EMAIL_VERIFICATION_TEMPLATE.md ← (future) Email templates
+└── ...
+```
+Naming convention: `{FRAMEWORK}_{TYPE}_TEMPLATE.md`
+**When to write one:** When adding a new export provider, a new email template, or any output format that must follow a strict structure.
+
+### 4. CLAUDE.md Files (Living Technical Reference)
 - **Root CLAUDE.md** (this file) — Roadmap, architecture guardrails, global conventions, documentation strategy.
 - **backend/CLAUDE.md** — Backend-specific patterns, module structure, path aliases, service conventions.
 - **frontend/CLAUDE.md** — Frontend-specific patterns, feature structure, hooks, routing.

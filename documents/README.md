@@ -12,8 +12,10 @@ This folder contains all project documentation outside of code. It serves two pu
 | `devlog/` | Development journal entries | `{YYYY-MM-DD}-{kebab-case-topic}.md` |
 | `mockups/` | UI wireframes and visual references | `{feature}_{view}_{version}.png` |
 | `api/` | API design notes (Swagger remains the live source of truth) | Free-form `.md` files |
+| `templates/` | Export & output templates — source of truth for generated code/files | `{FRAMEWORK}_{TYPE}_TEMPLATE.md` |
 
 ## Quick Links
 
 - [ADR Index](architecture/README.md)
 - [Mockup Index](mockups/README.md)
+- [Templates Index](templates/README.md)

@@ -33,6 +33,10 @@ export class SelectorService {
 
       await this.pageService.findOne(pageId, user);
 
+      if (selectorData.selectorValue) {
+        await this.ensureValueUnique(pageId, selectorData.selectorValue);
+      }
+
       const selector = this.selectorRepository.create({
         ...selectorData,
         page: { id: pageId },
@@ -91,6 +95,17 @@ export class SelectorService {
       const selector = await this.findByIdWithPage(id);
       await this.pageService.findOne(selector.page.id, user);
 
+      if (
+        updateSelectorDto.selectorValue &&
+        updateSelectorDto.selectorValue !== selector.selectorValue
+      ) {
+        await this.ensureValueUnique(
+          selector.page.id,
+          updateSelectorDto.selectorValue,
+          id,
+        );
+      }
+
       Object.assign(selector, updateSelectorDto);
       await this.selectorRepository.save(selector);
 
@@ -129,6 +144,12 @@ export class SelectorService {
       const selector = await this.findByIdWithPage(id);
       await this.pageService.findOne(selector.page.id, user);
 
+      await this.ensureValueUnique(
+        selector.page.id,
+        setSelectorValueDto.selectorValue,
+        id,
+      );
+
       selector.selectorStrategy = setSelectorValueDto.selectorStrategy;
       selector.selectorValue = setSelectorValueDto.selectorValue;
       selector.status = SelectorStatus.MAPPED;
@@ -164,6 +185,48 @@ export class SelectorService {
       )
         throw error;
       this.dbExHandler.handle(error);
+    }
+  }
+
+  async checkDuplicateValue(
+    pageId: string,
+    selectorValue: string,
+    user: AuthUser,
+    excludeId?: string,
+  ) {
+    try {
+      await this.pageService.findOne(pageId, user);
+
+      const existing = await this.selectorRepository.findOne({
+        where: { page: { id: pageId }, selectorValue },
+      });
+
+      const isDuplicate = !!existing && existing.id !== excludeId;
+      return { isDuplicate };
+    } catch (error) {
+      this.logger.error(`Error checking value duplicates: ${(error as Error).message}`);
+      if (
+        error instanceof NotFoundException ||
+        error instanceof ForbiddenException
+      )
+        throw error;
+      this.dbExHandler.handle(error);
+    }
+  }
+
+  private async ensureValueUnique(
+    pageId: string,
+    selectorValue: string,
+    excludeId?: string,
+  ) {
+    const existing = await this.selectorRepository.findOne({
+      where: { page: { id: pageId }, selectorValue },
+    });
+
+    if (existing && existing.id !== excludeId) {
+      throw new BadRequestException(
+        `A selector with value "${selectorValue}" already exists on this page`,
+      );
     }
   }
 
