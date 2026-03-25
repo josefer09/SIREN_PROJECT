@@ -8,6 +8,8 @@ import { ProjectsPage } from '@/features/project/components/ProjectsPage';
 import { ProjectDetailPage } from '@/features/project/components/ProjectDetailPage';
 import { PageDetailPage } from '@/features/selector/components/PageDetailPage';
 import { ElementInspector } from '@/features/inspector/components/ElementInspector';
+import { ProfilePage } from '@/features/profile/components/ProfilePage';
+import { AdminUsersPage } from '@/features/user/components/AdminUsersPage';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:id" element={<ProjectDetailPage />} />
           <Route path="/pages/:id" element={<PageDetailPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
         </Route>
 
         {/* Full-screen inspector (no sidebar) */}

@@ -4,6 +4,8 @@ import {
   LogOut,
   Moon,
   Sun,
+  UserCircle,
+  UsersRound,
   Zap,
 } from 'lucide-react';
 import { useAuthStore } from '@/store/auth.store';
@@ -11,6 +13,7 @@ import { useThemeStore } from '@/store/theme.store';
 
 export const AppLayout = () => {
   const { user, logout } = useAuthStore();
+  const isAdmin = user?.roles?.some((role) => role === 'admin' || role === 'ADMIN');
   const { theme, toggleTheme } = useThemeStore();
   const navigate = useNavigate();
 
@@ -41,6 +44,22 @@ export const AppLayout = () => {
             <FolderKanban className="w-4 h-4" />
             Projects
           </Link>
+          <Link
+            to="/profile"
+            className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-sidebar-hover transition-colors text-sm"
+          >
+            <UserCircle className="w-4 h-4" />
+            My Profile
+          </Link>
+          {isAdmin && (
+            <Link
+              to="/admin/users"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-sidebar-hover transition-colors text-sm"
+            >
+              <UsersRound className="w-4 h-4" />
+              Users
+            </Link>
+          )}
         </nav>
 
         {/* Footer */}
@@ -57,10 +76,19 @@ export const AppLayout = () => {
             {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
           </button>
 
-          <div className="flex items-center justify-between">
-            <div className="text-xs truncate">
-              <p className="font-medium">{user?.fullName}</p>
-              <p className="text-text-muted">{user?.email}</p>
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              {user?.avatar ? (
+                <img src={user.avatar} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />
+              ) : (
+                <div className="w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold shrink-0">
+                  {user?.fullName?.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)}
+                </div>
+              )}
+              <div className="text-xs truncate">
+                <p className="font-medium">{user?.fullName}</p>
+                <p className="text-text-muted">{user?.email}</p>
+              </div>
             </div>
             <button
               onClick={handleLogout}

@@ -14,6 +14,7 @@ import { PageModule } from '@page/page.module';
 import { SelectorModule } from '@selector/selector.module';
 import { ProxyModule } from '@proxy/proxy.module';
 import { UploadModule } from '@upload/upload.module';
+import { ProfileModule } from '@profile/profile.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { UploadModule } from '@upload/upload.module';
     SelectorModule,
     ProxyModule,
     UploadModule,
+    ProfileModule,
   ],
 })
 export class AppModule {}

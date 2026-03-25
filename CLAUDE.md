@@ -239,7 +239,7 @@ These are non-negotiable conventions. See `frontend/CLAUDE.md` for exhaustive de
 ## Global Code Style Rules
 - TypeScript strict mode in both projects
 - No `any` unless absolutely necessary — add `// TODO: type this` comment if forced
-- English for code, variables, types, comments. Spanish acceptable in user-facing strings only
+- **One language only — no mixing.** The entire UI is in English: labels, buttons, headings, toasts, placeholders, sidebar links, error messages, and any other user-facing string. Code, variables, types, and comments are also English. Never introduce Spanish (or any other language) into the UI unless the user explicitly requests a full language switch. Backend validation/error messages returned to the user must also be in English. This rule exists because mixing languages creates an inconsistent, unprofessional experience.
 - Every module/feature gets its own folder with co-located files
 - Barrel exports (`index.ts`) for folders with 2+ exports
 - No circular imports — use `forwardRef` only when genuinely needed, document why

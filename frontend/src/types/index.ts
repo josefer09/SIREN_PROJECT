@@ -1,12 +1,45 @@
+export interface Role {
+  id: string;
+  name: string;
+  description: string | null;
+}
+
+export interface AuthStoreUser {
+  id: string;
+  email: string;
+  fullName: string;
+  avatar?: string | null;
+  roles: string[];
+}
+
 export interface User {
   id: string;
   email: string;
   fullName: string;
-  roles: string[];
+  isActive: boolean;
+  isVerified: boolean;
+  avatar: string | null;
+  bio: string | null;
+  phone: string | null;
+  roles: Role[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UpdateProfilePayload {
+  fullName?: string;
+  bio?: string;
+  phone?: string;
+}
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export interface LoginResponse {
-  user: User;
+  user: AuthStoreUser;
   token: string;
 }
 

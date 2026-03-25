@@ -1,26 +1,34 @@
 import { create } from 'zustand';
-import type { User } from '@/types';
+import type { AuthStoreUser } from '@/types';
 
 interface AuthState {
-  user: User | null;
+  user: AuthStoreUser | null;
   token: string | null;
   isAuthenticated: boolean;
-  setAuth: (user: User, token: string) => void;
+  setAuth: (user: AuthStoreUser, token: string) => void;
+  updateUser: (partial: Partial<AuthStoreUser>) => void;
   logout: () => void;
 }
 
 const storedToken = localStorage.getItem('siren_token');
 const storedUserStr = localStorage.getItem('siren_user');
-const storedUser: User | null = storedUserStr ? JSON.parse(storedUserStr) : null;
+const storedUser: AuthStoreUser | null = storedUserStr ? JSON.parse(storedUserStr) : null;
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: storedUser,
   token: storedToken,
   isAuthenticated: !!storedToken,
-  setAuth: (user: User, token: string) => {
+  setAuth: (user: AuthStoreUser, token: string) => {
     localStorage.setItem('siren_token', token);
     localStorage.setItem('siren_user', JSON.stringify(user));
     set({ user, token, isAuthenticated: true });
+  },
+  updateUser: (partial: Partial<AuthStoreUser>) => {
+    const current = get().user;
+    if (!current) return;
+    const updated = { ...current, ...partial };
+    localStorage.setItem('siren_user', JSON.stringify(updated));
+    set({ user: updated });
   },
   logout: () => {
     localStorage.removeItem('siren_token');

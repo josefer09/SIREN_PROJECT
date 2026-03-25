@@ -31,7 +31,8 @@
       "@page/*": ["modules/page/*"],
       "@selector/*": ["modules/selector/*"],
       "@proxy/*": ["modules/proxy/*"],
-      "@upload/*": ["modules/upload/*"]
+      "@upload/*": ["modules/upload/*"],
+      "@profile/*": ["modules/profile/*"]
     }
   }
 }
