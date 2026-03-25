@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import {
   ArrowLeft,
+  BrainCircuit,
   Crosshair,
   Download,
   Pencil,
@@ -77,14 +78,18 @@ export const PageDetailPage = () => {
     }
   };
 
-  const handleUpdateFile = async () => {
-    try {
-      const result = await projectApi.updateFile(id!);
-      const action = result.created ? 'Created' : 'Updated';
-      toast.success(`${action}: ${result.filePath}`);
-    } catch {
-      toast.error('Failed to update file. Check that the project has a configured path.');
-    }
+  const handleUpdateFile = () => {
+    toast.info(
+      'Update File is not available yet. This feature will be replaced by GitHub integration in a future release. Use the export buttons to download your files.',
+      { autoClose: 6000 },
+    );
+  };
+
+  const handleAiScan = () => {
+    toast.info(
+      'AI Scan is coming soon! This feature will analyze your selectors for fragility and suggest more robust alternatives. Stay tuned for SirenAI (v2.2).',
+      { autoClose: 6000 },
+    );
   };
 
   if (pageQuery.isLoading) {
@@ -124,9 +129,13 @@ export const PageDetailPage = () => {
           <Code className="w-4 h-4" />
           .ts POM
         </button>
-        <button className="btn-secondary bg-accent flex items-center gap-2" onClick={handleUpdateFile}>
+        <button className="btn-secondary flex items-center gap-2 opacity-60" onClick={handleUpdateFile}>
           <FileUp className="w-4 h-4" />
           Update File
+        </button>
+        <button className="btn-secondary flex items-center gap-2 opacity-60" onClick={handleAiScan}>
+          <BrainCircuit className="w-4 h-4" />
+          AI Scan
         </button>
         <button className="btn-primary flex items-center gap-2" onClick={() => setShowCreateModal(true)}>
           <Plus className="w-4 h-4" />

@@ -83,7 +83,7 @@ export class ExportService {
   async exportPageTypescript(pageId: string, user: AuthUser): Promise<{ content: string; className: string }> {
     const data = await this.exportPageJson(pageId, user);
 
-    const className = `${this.toPascalCase(data.pageName)}Page`;
+    const className = this.toPageClassName(data.pageName);
     const timestamp = new Date().toISOString();
     const entries = Object.entries(data.selectors);
     const lines: string[] = [];
@@ -166,6 +166,25 @@ export class ExportService {
     return results;
   }
 
+  async exportProjectTypescript(
+    projectId: string,
+    user: AuthUser,
+  ): Promise<{ files: { className: string; content: string }[] }> {
+    await this.projectService.findByIdAndOwner(projectId, user.id);
+
+    const pages = await this.pageRepository.find({
+      where: { project: { id: projectId } },
+    });
+
+    const files: { className: string; content: string }[] = [];
+    for (const page of pages) {
+      const result = await this.exportPageTypescript(page.id, user);
+      files.push(result);
+    }
+
+    return { files };
+  }
+
   async updateFile(
     pageId: string,
     user: AuthUser,
@@ -198,7 +217,7 @@ export class ExportService {
     }
 
     // Search for existing file with .ts or .js extension
-    const className = `${this.toPascalCase(page.name)}Page`;
+    const className = this.toPageClassName(page.name);
     const tsFilePath = path.join(targetDir, `${className}.ts`);
     const jsFilePath = path.join(targetDir, `${className}.js`);
 
@@ -229,6 +248,12 @@ export class ExportService {
     return str
       .replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
       .replace(/^(.)/, (_, c) => c.toUpperCase());
+  }
+
+  private toPageClassName(name: string): string {
+    const pascal = this.toPascalCase(name);
+    const base = pascal.endsWith('Page') ? pascal.slice(0, -4) : pascal;
+    return `${base}Page`;
   }
 
   private toCamelCase(str: string): string {

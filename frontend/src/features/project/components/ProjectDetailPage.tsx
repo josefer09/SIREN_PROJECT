@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import {
   ArrowLeft,
+  Code,
   FileText,
   Pencil,
   Plus,
@@ -10,6 +11,7 @@ import {
   Download,
 } from 'lucide-react';
 import { toast } from 'react-toastify';
+import JSZip from 'jszip';
 
 import { projectApi } from '../project.api';
 import { pageApi } from '@/features/page/page.api';
@@ -62,6 +64,33 @@ export const ProjectDetailPage = () => {
     }
   };
 
+  const handleExportAllTs = async () => {
+    try {
+      const { files } = await projectApi.exportProjectTypescript(id!);
+      if (files.length === 0) {
+        toast.warning('No pages to export');
+        return;
+      }
+
+      const zip = new JSZip();
+      const pagesFolder = zip.folder('pages')!;
+      for (const file of files) {
+        pagesFolder.file(`${file.className}.ts`, file.content);
+      }
+
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${projectQuery.data?.name || 'project'}-pages.zip`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success(`Exported ${files.length} page(s) as TypeScript POM!`);
+    } catch {
+      toast.error('Export failed');
+    }
+  };
+
   if (projectQuery.isLoading) {
     return <div className="text-center py-10 text-text-secondary">Loading...</div>;
   }
@@ -89,7 +118,11 @@ export const ProjectDetailPage = () => {
         </div>
         <button className="btn-secondary flex items-center gap-2" onClick={handleExport}>
           <Download className="w-4 h-4" />
-          Export
+          JSON
+        </button>
+        <button className="btn-secondary flex items-center gap-2" onClick={handleExportAllTs}>
+          <Code className="w-4 h-4" />
+          Export .ts
         </button>
         <button className="btn-primary flex items-center gap-2" onClick={() => setShowCreateModal(true)}>
           <Plus className="w-4 h-4" />

@@ -77,6 +77,16 @@ export class ProjectController {
     return this.exportService.exportProjectJson(id, user);
   }
 
+  @Get(':id/export/typescript')
+  @Auth()
+  @ApiOperation({ summary: 'Export all pages of a project as TypeScript POM classes' })
+  exportProjectTypescript(
+    @Param('id', ParseUUIDPipe) id: string,
+    @GetUser() user: AuthUser,
+  ) {
+    return this.exportService.exportProjectTypescript(id, user);
+  }
+
   @Get('export/page/:pageId/json')
   @Auth()
   @ApiOperation({ summary: 'Export a single page as JSON' })

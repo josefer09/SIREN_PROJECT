@@ -31,6 +31,13 @@ export const projectApi = {
     return data;
   },
 
+  exportProjectTypescript: async (id: string): Promise<{ files: { className: string; content: string }[] }> => {
+    const { data } = await httpClient.get<{ files: { className: string; content: string }[] }>(
+      `/projects/${id}/export/typescript`,
+    );
+    return data;
+  },
+
   exportPageJson: async (pageId: string): Promise<PageExport> => {
     const { data } = await httpClient.get<PageExport>(`/projects/export/page/${pageId}/json`);
     return data;

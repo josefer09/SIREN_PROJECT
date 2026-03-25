@@ -39,6 +39,7 @@ The roadmap is organized in **drops** — incremental, shippable releases within
 
 ### Backlog (Unscheduled)
 Ideas captured but not yet assigned to a version. Move to a drop when scope is clear:
+- **GitHub Integration** — Replace direct filesystem writes (`updateFile`) with Git-based delivery. Users configure a GitHub repo + branch per project; Siren commits exported POM files via GitHub API. Planned after UserHub (v1.1) when user/project ownership model is solid. The `updateFile` endpoint and "Update File" button remain in the codebase but are disabled in the UI with an informational toast until this is implemented.
 - **Dashboard Analytics** — Project health metrics (selector coverage, staleness, team activity).
 - **Notification System** — In-app + email notifications for team events (selector deprecated, new team member, export completed).
 - **Plugin/Extension API** — Allow third-party tools to integrate with Siren's selector data.
@@ -75,6 +76,13 @@ Web scanning and AI processing will be slow operations. NestJS supports BullMQ q
 - Keep services stateless and idempotent.
 - Return results, don't mutate shared state in service methods.
 - When v2.1 arrives, wrapping a service method in a Bull processor is trivial if the method is already pure.
+
+### 5. Export Delivery Strategy (Impacts: v1.0, Backlog)
+The current `updateFile()` endpoint writes directly to the **server's** filesystem. This works in local development but **not in production** where the server and the user's machine are different. Current strategy:
+- **Download-based export** (browser download) is the primary delivery mechanism for v1.0. Both single-page and bulk project export are supported.
+- **`updateFile` endpoint remains** in the backend but the UI button is disabled with an informational toast. Do not remove the endpoint — it will be refactored for GitHub integration.
+- **Future: GitHub Integration** will replace filesystem writes. The project entity already has `projectPath` which will be repurposed as the target path within a repo (e.g., `cypress/pages/`).
+- **Do not add new filesystem-write features.** Any new export delivery should go through download or (future) Git integration.
 
 ### 4. Multi-Tenancy via Project Ownership (Impacts: v1.2)
 The current auth system has roles (ADMIN, SUPER_USER, USER) but no concept of "who owns this project." When TeamForge lands:
