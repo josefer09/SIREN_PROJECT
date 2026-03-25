@@ -13,6 +13,7 @@ import { ProjectModule } from '@project/project.module';
 import { PageModule } from '@page/page.module';
 import { SelectorModule } from '@selector/selector.module';
 import { ProxyModule } from '@proxy/proxy.module';
+import { UploadModule } from '@upload/upload.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { ProxyModule } from '@proxy/proxy.module';
     PageModule,
     SelectorModule,
     ProxyModule,
+    UploadModule,
   ],
 })
 export class AppModule {}

@@ -17,6 +17,9 @@ export const EnvConfiguration = () => ({
   APP_PORT: parseInt(process.env.APP_PORT || '3001', 10),
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
   COMPANY_NAME: process.env.COMPANY_NAME || 'Siren',
+  MAX_FILE_SIZE: parseInt(process.env.MAX_FILE_SIZE || '2097152', 10),
+  UPLOAD_DIR: process.env.UPLOAD_DIR || './uploads',
+  APP_URL: process.env.APP_URL || 'http://localhost:3001',
 });
 
 export const envValidationSchema = Joi.object({
@@ -36,4 +39,7 @@ export const envValidationSchema = Joi.object({
   APP_PORT: Joi.number().default(3001),
   FRONTEND_URL: Joi.string().default('http://localhost:5173'),
   COMPANY_NAME: Joi.string().default('Siren'),
+  MAX_FILE_SIZE: Joi.number().default(2097152),
+  UPLOAD_DIR: Joi.string().default('./uploads'),
+  APP_URL: Joi.string().default('http://localhost:3001'),
 });

@@ -30,7 +30,8 @@
       "@project/*": ["modules/project/*"],
       "@page/*": ["modules/page/*"],
       "@selector/*": ["modules/selector/*"],
-      "@proxy/*": ["modules/proxy/*"]
+      "@proxy/*": ["modules/proxy/*"],
+      "@upload/*": ["modules/upload/*"]
     }
   }
 }

@@ -28,6 +28,7 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+      - ./uploads:/app/uploads  # Persist uploaded files across container restarts
     depends_on:
       - postgres
     restart: unless-stopped
